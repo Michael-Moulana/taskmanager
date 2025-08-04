@@ -10,9 +10,6 @@
 * View tasks
 * Update tasks
 * Delete tasks
-
-**This **app**lication** is**almost **a** precompiled** app**. However, students will develop some features,**such as adding tasks, viewing tasks, updating tasks, and **deleting** tasks**. **Students** will interact with GitHub when they develop the features.**
-
 ---
 
 **Prerequisite:** Please install the following software and create account in following web tools** **
