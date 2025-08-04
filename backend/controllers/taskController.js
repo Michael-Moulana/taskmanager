@@ -1,6 +1,6 @@
 const { get } = require("mongoose");
 const Task = require("../models/Task");
-const user1
+
 const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ userId: req.user._id });
