@@ -3,8 +3,8 @@ const Task = require("../models/Task");
 
 const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ userId: req.user._id });
-    res.status(200).json(tasks);
+    const tasks = await Task.find({ userId: req.user.id });
+    res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks", error });
   }
@@ -13,16 +13,15 @@ const getTasks = async (req, res) => {
 const addTask = async (req, res) => {
   const { title, description, deadline } = req.body;
   try {
-    const task = new Task({
+    const task = await Task.create({
+      userId: req.user.id,
       title,
       description,
       deadline,
-      userId: req.user._id,
     });
-    await task.save();
     res.status(201).json(task);
   } catch (error) {
-    res.status(500).json({ message: "Error adding task", error });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -34,13 +33,13 @@ const updateTask = async (req, res) => {
 
     task.title = title || task.title;
     task.description = description || task.description;
-    task.completed = completed || task.completed;
+    task.completed = completed ?? task.completed;
     task.deadline = deadline || task.deadline;
 
     const updateTask = await task.save();
-    res.status(200).json(task);
+    res.json(updateTask);
   } catch (error) {
-    res.status(500).json({ message: "Error updating task", error });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -52,7 +51,7 @@ const deleteTask = async (req, res) => {
     await task.remove();
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting task", error });
+    res.status(500).json({ message: error.message });
   }
 };
 
